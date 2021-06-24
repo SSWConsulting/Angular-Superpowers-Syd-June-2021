@@ -18,22 +18,23 @@ export class CompanyService {
   public getCompanies(): Observable<Company[]> {
     return this.httpClient.get<Company[]>(
       `${this.API_BASE}/company`
-    )
-    .pipe(
+    ).pipe(
       tap(x => console.log('[SERVICE]', x)),
-      catchError(e => this.errorHandler(e)),
+      catchError(e => this.errorHandler<Company[]>(e)),
       finalize(() => console.log('[SERVICE] complete'))
     );
-
-    // return [
-    //   { name: 'Company 1', email : 'email1', phone: 12345 },
-    //   { name: 'Company 2', email : 'email2', phone: 67890 },
-    //   { name: 'Company 3', email : 'email3', phone: 67890 },
-    // ];
   }
 
-  private errorHandler(error: Error): Observable<Company[]> {
+  public deleteCompany(companyId: number): Observable<Company> {
+    return this.httpClient.delete<Company>(
+      `${this.API_BASE}/company/${companyId}`
+    ).pipe(
+      catchError(e => this.errorHandler<Company>(e))
+    )
+  }
+
+  private errorHandler<T>(error: Error): Observable<T> {
     console.log('[SERVICE] error', error);
-    return new Observable<Company[]>();
+    return new Observable<T>();
   }
 }
