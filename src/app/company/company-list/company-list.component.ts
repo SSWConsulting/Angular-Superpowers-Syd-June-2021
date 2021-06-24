@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Company } from '../company';
 import { CompanyService } from '../company.service';
 
@@ -9,20 +10,17 @@ import { CompanyService } from '../company.service';
 })
 export class CompanyListComponent implements OnInit {
 
-  companies: Company[] = [];
-  private companyService: CompanyService
+  companies$!: Observable<Company[]>;
 
   constructor(
-    companyService: CompanyService
-  ) {
-    this.companyService = companyService;
-  }
+    private companyService: CompanyService
+  ) {}
 
   ngOnInit(): void {
     this.getCompanies()
   }
 
   getCompanies(): void {
-    this.companies = this.companyService.getCompanies();
+    this.companies$ = this.companyService.getCompanies();
   }
 }
