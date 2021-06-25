@@ -22,7 +22,7 @@ export class CompanyEditComponent implements OnInit {
     {
       name: ['', Validators.required],
       email: [],
-      phone: []
+      phone: [],
     }
   )
 
@@ -52,28 +52,41 @@ export class CompanyEditComponent implements OnInit {
       this.currentName = value;
     })
 
-
     this.companyId = this.activateRoute.snapshot.params.id;
     this.isNewCompany = !this.companyId;
+
+    if(!this.isNewCompany){
+      this.companyService.getCompany(this.companyId!)
+      .subscribe(company => {
+        this.companyForm.patchValue(company);
+      });
+
+    }
 
     // Todo: grab the current values for the current company
   }
 
   saveChanges(){
 
-    const company = this.companyForm.value as Company;
 
     if(this.isNewCompany){
-      this.companyService.addCompany(company)
+
+    const newCompany = this.companyForm.value as Company;
+
+    this.companyService.addCompany(newCompany)
       .subscribe(() => {
         this.router.navigateByUrl('/company/list');
         // this.router.navigate(['company', 'list']); // Equivalent to the above
-      })
+      });
     }else{
-      // Update current company
+
+      const company = {...this.companyForm.value, id: this.companyId}
+
+      this.companyService.updateCompany(company)
+      .subscribe(() => {
+        this.router.navigateByUrl('/company/list');
+      });
     }
-
-
   }
 
 }
