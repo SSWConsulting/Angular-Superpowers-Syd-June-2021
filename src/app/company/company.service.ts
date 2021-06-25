@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Company } from './company';
 
 @Injectable({
@@ -11,7 +12,7 @@ export class CompanyService {
 
   private companies$: BehaviorSubject<Company[]> = new BehaviorSubject<Company[]>([]);
 
-  API_BASE = 'https://firebootcamp-crm-api.azurewebsites.net/api';
+  API_BASE = environment.API_BASE;
 
   constructor(
     private httpClient: HttpClient
