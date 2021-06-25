@@ -66,27 +66,19 @@ export class CompanyEditComponent implements OnInit {
     // Todo: grab the current values for the current company
   }
 
-  saveChanges(){
+  saveChanges() {
+    if (this.isNewCompany) {
 
+      const newCompany = this.companyForm.value as Company;
+      this.companyService.addCompany(newCompany)
 
-    if(this.isNewCompany){
+    } else {
 
-    const newCompany = this.companyForm.value as Company;
-
-    this.companyService.addCompany(newCompany)
-      .subscribe(() => {
-        this.router.navigateByUrl('/company/list');
-        // this.router.navigate(['company', 'list']); // Equivalent to the above
-      });
-    }else{
-
-      const company = {...this.companyForm.value, id: this.companyId}
-
+      const company = { ...this.companyForm.value, id: this.companyId }
       this.companyService.updateCompany(company)
-      .subscribe(() => {
-        this.router.navigateByUrl('/company/list');
-      });
     }
+
+    this.router.navigateByUrl('/company/list');
   }
 
 }
