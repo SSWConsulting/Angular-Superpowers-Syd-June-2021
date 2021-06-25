@@ -21,7 +21,7 @@ import { CompanyEditComponent } from './company/company-edit/company-edit.compon
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

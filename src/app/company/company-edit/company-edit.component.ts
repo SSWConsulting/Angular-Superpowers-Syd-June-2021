@@ -18,13 +18,11 @@ export class CompanyEditComponent implements OnInit {
   //   phone: new FormControl()
   // })
 
-  companyForm: FormGroup = this.formBuilder.group(
-    {
-      name: ['', Validators.required],
-      email: [],
-      phone: [],
-    }
-  )
+  companyForm: FormGroup = this.formBuilder.group({
+    name: ['', Validators.required],
+    email: [],
+    phone: [],
+  });
 
   currentName: string = "";
   companyId?: number;
@@ -60,25 +58,21 @@ export class CompanyEditComponent implements OnInit {
       .subscribe(company => {
         this.companyForm.patchValue(company);
       });
-
     }
-
-    // Todo: grab the current values for the current company
   }
 
   saveChanges() {
     if (this.isNewCompany) {
-
       const newCompany = this.companyForm.value as Company;
       this.companyService.addCompany(newCompany)
-
     } else {
-
-      const company = { ...this.companyForm.value, id: this.companyId }
+      const company = {
+        ...this.companyForm.value,
+        id: this.companyId
+      }
       this.companyService.updateCompany(company)
     }
 
     this.router.navigateByUrl('/company/list');
   }
-
 }

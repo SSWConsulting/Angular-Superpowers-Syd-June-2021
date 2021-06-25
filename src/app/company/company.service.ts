@@ -24,11 +24,9 @@ export class CompanyService {
       `${this.API_BASE}/company`
     ).pipe(
       catchError(e => this.errorHandler<Company[]>(e))
-    ).subscribe(
-      companies => {
-        this.companies$.next(companies);
-      }
-    );
+    ).subscribe(companies => {
+      this.companies$.next(companies);
+    });
   }
 
   public getCompanies(): Observable<Company[]> {
@@ -40,12 +38,9 @@ export class CompanyService {
       `${this.API_BASE}/company/${companyId}`
     ).pipe(
       catchError(e => this.errorHandler<Company>(e))
-    )
-    .subscribe(
-      company => {
-        this.loadCompanies();
-      }
-    )
+    ).subscribe(() => {
+      this.loadCompanies();
+    })
   }
 
   public addCompany(company: Company): void {
@@ -57,11 +52,9 @@ export class CompanyService {
     ).pipe(
       catchError(e => this.errorHandler<Company>(e))
     )
-    .subscribe(
-      company => {
-        this.loadCompanies();
-      }
-    )
+    .subscribe(() => {
+      this.loadCompanies();
+    });
   }
 
   public getCompany(companyId: number): Observable<Company> {
@@ -80,11 +73,9 @@ export class CompanyService {
       { headers: new HttpHeaders().set('content-type', 'application/json') }
     ).pipe(
       catchError(e => this.errorHandler<Company>(e))
-    ).subscribe(
-      company => {
-        this.loadCompanies();
-      }
-    )
+    ).subscribe(() => {
+      this.loadCompanies();
+    })
   }
 
   private errorHandler<T>(error: Error): Observable<T> {
