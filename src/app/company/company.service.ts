@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
@@ -28,6 +28,17 @@ export class CompanyService {
   public deleteCompany(companyId: number): Observable<Company> {
     return this.httpClient.delete<Company>(
       `${this.API_BASE}/company/${companyId}`
+    ).pipe(
+      catchError(e => this.errorHandler<Company>(e))
+    )
+  }
+
+  public addCompany(company: Company): Observable<Company> {
+    return this.httpClient.post<Company>(
+      `${this.API_BASE}/company`,
+      company,
+      // this is not required - our API does not need it
+      { headers: new HttpHeaders().set('content-type', 'application/json') }
     ).pipe(
       catchError(e => this.errorHandler<Company>(e))
     )
